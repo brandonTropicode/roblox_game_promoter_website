@@ -10,6 +10,7 @@ export default function AdminLogin() {
 
     if (username === "admin" && password === "1234") { // CHANGE TO ACTUAL USERNAME AND PASSWORD
       setMessage("Login successful!");
+      window.location.href = '/admin-home'
     } else {
       setMessage("Invalid username or password.");
     }
