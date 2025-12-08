@@ -6,7 +6,6 @@ export default function EventForm() {
   const [start, setStart] = useState("");
   const [end, setEnd] = useState("");
   const [reward, setReward] = useState("");
-  const [requirements, setRequirements] = useState("");
   const [image, setImage] = useState(null);
 
   // Image preview handler
@@ -18,7 +17,6 @@ export default function EventForm() {
 
   return (
     <div className="max-w-3xl mx-auto">
-
       {/* Title */}
       <label className="block mb-2 font-semibold">Event Title</label>
       <input
@@ -66,15 +64,6 @@ export default function EventForm() {
         className="w-full p-2 border rounded mb-6"
       />
 
-      {/* Requirements */}
-      {/* <label className="block mb-2 font-semibold">Requirements (optional)</label>
-      <textarea
-        value={requirements}
-        onChange={(e) => setRequirements(e.target.value)}
-        placeholder="Any prerequisites for the event?"
-        className="w-full p-2 border rounded h-20 mb-6"
-      /> */}
-
       {/* Image Upload */}
       <label className="block mb-2 font-semibold">Event Banner Image</label>
 
@@ -90,19 +79,41 @@ export default function EventForm() {
         </div>
       )}
 
-      {/* Submit Button */}
-      <div className="flex gap-4 mb-4">
+      {/* Upload + Submit */}
+      <div className="flex items-center justify-between mb-4">
+
+        {/* Upload Button */}
         <label
-            htmlFor="event-image-upload"
-            className="inline-block bg-blue-500 text-white px-4 py-1 rounded cursor-pointer hover:bg-blue-600 transition"
+          htmlFor="event-image-upload"
+          className="
+            border border-blue-500
+            text-blue-500
+            bg-white
+            px-6 py-2
+            rounded
+            text-center
+            cursor-pointer
+            hover:bg-blue-500 hover:text-white
+            transition
+          "
         >
-            Upload Image
+          Upload Image
         </label>
 
+        {/* Hidden File Input */}
+        <input
+          id="event-image-upload"
+          type="file"
+          accept="image/*"
+          onChange={handleImageChange}
+          className="hidden"
+        />
+
+        {/* Publish Button */}
         <button className="bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600 transition">
-            Publish Event
+          Publish Event
         </button>
-        </div>
+      </div>
     </div>
-  );
+  )
 }

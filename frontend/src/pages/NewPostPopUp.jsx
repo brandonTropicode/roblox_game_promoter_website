@@ -62,7 +62,7 @@ export default function NewPostPopUp({ onClose }) {
 
         {/* Dynamic Form */}
         <div className="mt-4">
-          {selectedType === "post" && <PostForm />}
+          {selectedType === "post" && <PostForm setShowPopup={onClose} />}
           {selectedType === "update" && <UpdateForm />}
           {selectedType === "event" && <EventForm />}
         </div>
