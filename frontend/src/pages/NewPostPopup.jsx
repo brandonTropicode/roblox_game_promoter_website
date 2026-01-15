@@ -1,4 +1,5 @@
 import { useState } from "react"
+import PostForm from "./PostForm"
 
 export default function NewPostPopup({ onClose }){
     const [selectedType,setSelectedType]=useState("post")
@@ -54,6 +55,9 @@ export default function NewPostPopup({ onClose }){
           >
             Event
           </button>
+        </div>
+        <div className="mt-4">
+          {selectedType === 'post' && <PostForm />}
         </div>
       </div>
     </div>
