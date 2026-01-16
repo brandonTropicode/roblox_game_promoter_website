@@ -1,12 +1,15 @@
+import { addDoc, collection } from "firebase/firestore";
 import { useState } from "react";
+import { db } from "../firebase";
 
-export default function UpdateForm() {
+export default function UpdateForm({ setShowPopup }) {
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState("");
   const [summary, setSummary] = useState("");
   const [changes, setChanges] = useState([""]);
   const [version, setVersion] = useState("");
   const publishDate = new Date().toLocaleString();
+  const [isSaving, setIsSaving] = useState(false)
 
   // Handle change list updates
   const updateChange = (value, index) => {
@@ -25,14 +28,58 @@ export default function UpdateForm() {
     setChanges(updated);
   };
 
-  // Remove one specific image
-  const removeImage = (index) => {
-    const updated = images.filter((_, i) => i !== index);
-    setImages(updated);
+  // handleSubmit function to add update post to the db
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!title.trim() || !summary.trim()) {
+      alert("Fill in the required fields");
+      return;
+    }
+
+    try {
+      setIsSaving(true);
+
+      const updateData = {
+        type: "update",
+        title: title.trim(),
+        category: category || "",
+        summary: summary.trim(),
+        changes: changes.filter((c) => c.trim() !== ""),
+        version: version || "",
+        images: [],
+        publishDate,
+
+        body: "",
+        description: "",
+        startDate: "",
+        endDate: "",
+        reward: "",
+        requirements: "",
+        bannerImage: "",
+      };
+
+      await addDoc(collection(db, "posts"), updateData);
+
+      // reset form
+      setTitle("");
+      setCategory("");
+      setSummary("");
+      setChanges([""]);
+      setVersion("");
+
+      alert("Update published!");
+      setShowPopup(false);
+    } catch (err) {
+      console.error("Error saving update:", err);
+      alert("There was an error publishing the update.");
+    } finally {
+      setIsSaving(false);
+    }
   };
 
   return (
-    <div className="max-w-3xl mx-auto">
+    <form onSubmit={handleSubmit} className="max-w-3xl mx-auto">
 
       {/* Update Title */}
       <label className="block mb-2 font-semibold">Update Title</label>
@@ -94,6 +141,7 @@ export default function UpdateForm() {
       ))}
 
       <button
+        type="button"
         onClick={addChangeField}
         className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition mb-6"
       >
@@ -114,30 +162,6 @@ export default function UpdateForm() {
       <label className="block mb-2 font-semibold">Update Images (optional, max 3)</label>
       <p className="text-gray-400 text-sm italic my-5">Coming soon..</p>
 
-      {/* Horizontally scrolling image list */}
-      {images.length > 0 && (
-        <div className="flex gap-4 overflow-x-auto mb-6">
-          {images.map((img, idx) => (
-            <div key={idx} className="relative">
-              {/* Remove button */}
-              <button
-                onClick={() => removeImage(idx)}
-                className="absolute top-0 left-0 bg-red-500 text-white w-6 h-6 rounded-full text-xs flex items-center justify-center hover:bg-red-600"
-              >
-                ✕
-              </button>
-
-              {/* Small image */}
-              <img
-                src={img}
-                alt="Preview"
-                className="w-24 h-24 object-cover rounded border"
-              />
-            </div>
-          ))}
-        </div>
-      )}
-
       {/* Publish Date */}
       <label className="block mb-1 font-semibold">Publish Date</label>
       <input
@@ -148,9 +172,9 @@ export default function UpdateForm() {
       />
 
       {/* Submit */}
-      <button className="bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600 transition">
+      <button type="submit" className="bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600 transition cursor-pointer">
         Publish Update
       </button>
-    </div>
+    </form>
   );
 }
