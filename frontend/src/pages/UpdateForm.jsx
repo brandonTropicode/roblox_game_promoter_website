@@ -124,22 +124,7 @@ export default function UpdateForm() {
 
       {/* Image Upload */}
       <label className="block mb-2 font-semibold">Update Images (optional, max 3)</label>
-
-      <label
-        htmlFor="update-image-upload"
-        className="inline-block bg-blue-500 text-white px-4 py-2 rounded cursor-pointer hover:bg-blue-600 transition mb-4"
-      >
-        Upload Images
-      </label>
-
-      <input
-        id="update-image-upload"
-        type="file"
-        accept="image/*"
-        multiple
-        onChange={handleImageUpload}
-        className="hidden"
-      />
+      <p className="text-gray-400 text-sm italic my-5">Coming soon..</p>
 
       {/* Horizontally scrolling image list */}
       {images.length > 0 && (

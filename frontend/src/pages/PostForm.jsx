@@ -5,20 +5,9 @@ import { addDoc, collection } from "firebase/firestore";
 export default function PostForm({ setShowPopup }) {
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
-  // const [imagePreview, setImagePreview] = useState(null);
-  // const [imageFile, setImageFile] = useState(null);
   const [isSaving, setIsSaving] = useState(false);
 
   const publishDate = new Date().toLocaleString();
-
-  // Image preview
-  // const handleImageChange = (e) => {
-  //   if (e.target.files && e.target.files[0]) {
-  //     const file = e.target.files[0]
-  //     setImageFile(file)
-  //     setImagePreview(URL.createObjectURL(file))
-  //   }
-  // };
 
   const handleSubmit = async(e) => {
     e.preventDefault()
@@ -29,14 +18,6 @@ export default function PostForm({ setShowPopup }) {
 
     try {
       setIsSaving(true)
-
-      // let imgUrl = null
-      // if (imageFile) {
-      //   const filePath = `posts/${Date.now()}-${imageFile.name}`
-      //   const imgRef = ref(storage, filePath)
-      //   await uploadBytes(imgRef, imageFile)
-      //   imgUrl = await getDownloadURL(imgRef)
-      // }
 
       const postData = {
         type: 'post',
@@ -61,8 +42,6 @@ export default function PostForm({ setShowPopup }) {
 
       setTitle("");
       setBody("");
-      // setImageFile(null);
-      // setImagePreview(null);
 
       alert("Post published!");
       setShowPopup(false); // --> close the new post popup
@@ -98,34 +77,6 @@ export default function PostForm({ setShowPopup }) {
         {/* Image Upload */}
         <label className="block mb-2 font-semibold">Image Upload(optional)</label>
         <p className="text-gray-400 text-sm italic my-5">Coming soon..</p>
-
-        {/* <label
-            htmlFor="post-image-upload"
-            className="inline-block bg-blue-500 text-white px-4 py-2 rounded cursor-pointer hover:bg-blue-600 transition mb-4"
-            >
-            Upload Image
-        </label>
-
-        <input
-            id="post-image-upload"
-            type="file"
-            accept="image/*"
-            onChange={handleImageChange}
-            className="hidden"
-        /> */}
-
-        {/* Image Preview */}
-        {/* {imagePreview && (
-          <div className="mb-6">
-            <p className="font-semibold mb-2">Thumbnail Preview:</p>
-
-            <img
-              src={imagePreview}
-              alt="Preview"
-              className="w-48 h-48 object-cover rounded border"
-            />
-          </div>
-        )} */}
 
         {/* Publish Date */}
         <div className="mb-6">
