@@ -6,7 +6,6 @@ export default function UpdateForm() {
   const [summary, setSummary] = useState("");
   const [changes, setChanges] = useState([""]);
   const [version, setVersion] = useState("");
-  const [images, setImages] = useState([]);
   const publishDate = new Date().toLocaleString();
 
   // Handle change list updates
@@ -24,17 +23,6 @@ export default function UpdateForm() {
     if (changes.length === 1) return;
     const updated = changes.filter((_, i) => i !== index);
     setChanges(updated);
-  };
-
-  // Image upload handler
-  const handleImageUpload = (e) => {
-    if (e.target.files) {
-      const selectedFiles = Array.from(e.target.files)
-        .slice(0, 3 - images.length) // allow a max of 3 total
-        .map((file) => URL.createObjectURL(file));
-
-      setImages((prev) => [...prev, ...selectedFiles].slice(0, 3));
-    }
   };
 
   // Remove one specific image
