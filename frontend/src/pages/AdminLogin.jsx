@@ -8,8 +8,9 @@ export default function AdminLogin() {
   const handleLogin = (e) => {
     e.preventDefault();
 
-    if (username === "admin" && password === "1234") { // CHANGE TO ACTUAL USERNAME AND PASSWORD
+    if (username === "admin" && password === "GamE.PromoteR.JsX") { // CHANGE TO ACTUAL USERNAME AND PASSWORD
       setMessage("Login successful!");
+      window.location.href = '/admin-home'
     } else {
       setMessage("Invalid username or password.");
     }

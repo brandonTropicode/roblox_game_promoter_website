@@ -1,8 +1,23 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import NewPostPopup from "./NewPostPopup";
+import { collection, onSnapshot } from "firebase/firestore";
+import { db } from "../firebase";
 
 export default function AdminHome(){
      const [showpopup,setShowpopup]=useState(false)
+     const [posts,setposts]=useState([])
+     useEffect(() => {
+      const postsRef = collection(db,'posts')
+      const refresh=onSnapshot(postsRef,(snapshot)=>{
+        const data = snapshot.docs.map((doc)=>({
+          id:doc.id,
+          ...doc.data()
+        }))
+        setposts(data)
+      })
+      return () => refresh()
+     }, [])
+    console.log(posts)
     return(
         <div className="min-h-screen bg-gray-100">
 
