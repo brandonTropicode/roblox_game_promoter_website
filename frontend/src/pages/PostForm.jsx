@@ -1,17 +1,58 @@
+import { addDoc, collection } from "firebase/firestore"
 import { useState } from "react"
+import { db } from "../firebase"
 
-export default function PostForm(){
+export default function PostForm({setshowpopup}){
     const[title,setTitle] = useState('')
     const[body,setBody] = useState('')
-    const[img,setImg] = useState(null)
+    // const[img,setImg] = useState(null)
+    const [isSaving,setIsSaving] = useState(false)
     const publishDate = new Date().toLocaleString()
     const handleImgChange = (e) => {
         if(e.target.files && e.target.files[0]){
             setImg(URL.createObjectURL(e.target.files[0]))
         }
     }
+    const handleSubmit = async(e)=>{
+        e.preventDefault()
+        if(!title.trim()||!body.trim()){
+            alert('Fill in the blanks')
+            return
+        }
+        try{
+            setIsSaving(true)
+            const postData = {
+			        type:"post",
+			        title:title.trim(), 
+			        body:body.trim(),
+			        images: [],
+			        publishDate,
+			
+			        summary: "",
+			        changes: [],
+			        version: "",
+			        category: "",
+			        description: "",
+			        startDate: "",
+			        endDate: "",
+			        reward: "",
+			        requirements: "",
+			        bannerImage: ""
+            }
+            await addDoc(collection(db,'posts'),postData)
+            setTitle('')
+            setBody('')
+            alert('your post is published')
+            setshowpopup(false)
+        } catch (err) {
+            console.error("Error saving post:", err);
+            alert("There was an error publishing the post.");
+            } finally {
+            setIsSaving(false);
+            }
+    }
     return(
-        <div className="max-w-3xl mx-auto">
+        <form onSubmit={handleSubmit} className="max-w-3xl mx-auto">
 
         {/* Title */}
         <label className="block mb-2 font-semibold">Post Title</label>
@@ -51,7 +92,7 @@ export default function PostForm(){
         />
 
         {/* Image Preview */}
-        {img && (
+        {/* {img && (
         <div className="mb-6">
             <p className="font-semibold mb-2">Thumbnail Preview:</p>
             <img
@@ -60,7 +101,7 @@ export default function PostForm(){
             className="w-48 h-48 object-cover rounded border"
             />
         </div>
-        )}
+        )} */}
 
         {/* Publish Date */}
         <div className="mb-6">
@@ -74,9 +115,9 @@ export default function PostForm(){
         </div>
 
         {/* Submit Button */}
-        <button className="bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600 transition">
+        <button type="submit" className="bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600 transition">
         Publish Post
         </button>
-    </div>
+    </form>
     )
 }

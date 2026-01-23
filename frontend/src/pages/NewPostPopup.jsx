@@ -57,7 +57,7 @@ export default function NewPostPopup({ onClose }){
           </button>
         </div>
         <div className="mt-4">
-          {selectedType === 'post' && <PostForm />}
+          {selectedType === 'post' && <PostForm setshowpopup={onClose} />}
         </div>
       </div>
     </div>
