@@ -2,14 +2,24 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import Home from './pages/Home';
 import AdminLogin from './pages/AdminLogin';
 import AdminPage from './pages/AdminPage';
+import ProtectedRoute from './pages/ProtectedRoute';
 
 function App() {
+  const isAdminLoggedIn = localStorage.getItem("adminLoggedIn") === "true";
+
   return (
     <Router>
       <Routes>
         <Route path='/home' element={<Home />} />
-        <Route path='/admin' element={<AdminLogin />} />
-        <Route path='/admin-home' element={<AdminPage />} />
+        <Route path='/admin-login' element={<AdminLogin />} />
+        <Route
+          path="/admin-home"
+          element={
+            <ProtectedRoute isAllowed={isAdminLoggedIn}>
+              <AdminPage />
+            </ProtectedRoute>
+          }
+        />
 
         <Route path='*' element={<Navigate to="/home" replace />} />
       </Routes>

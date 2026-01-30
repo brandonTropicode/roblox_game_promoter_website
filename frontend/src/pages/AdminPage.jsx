@@ -3,10 +3,12 @@ import NewPostPopUp from "./NewPostPopUp";
 import PostList from "./PostList";
 import { collection, onSnapshot } from "firebase/firestore";
 import { db } from "../firebase";
+import { useNavigate } from "react-router-dom";
 
 export default function AdminPage() {
     const [showPopup, setShowPopup] = useState(false);
     const [posts, setPosts] = useState([]);
+    const navigate = useNavigate()
 
     useEffect(() => {
         const postsRef = collection(db, 'posts');
@@ -22,13 +24,18 @@ export default function AdminPage() {
         return () => unsubscribe()
     }, [])
 
+    const handleLogout = () => {
+        localStorage.removeItem("adminLoggedIn");
+        navigate("/admin-login", { replace: true });
+    };
+
     return (
         <div className="min-h-screen bg-gray-100">
 
             <header className="bg-white shadow p-4 flex justify-between items-center">
                 <h1 className="text-2xl font-bold text-blue-600">Admin Panel</h1>
 
-                <button className="cursor-pointer bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition">
+                <button onClick={handleLogout} className="cursor-pointer bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition">
                 Log Out
                 </button>
             </header>
