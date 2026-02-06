@@ -10,7 +10,8 @@ export default function AdminLogin() {
 
     if (username === "admin" && password === "GamE.PromoteR.JsX") { // CHANGE TO ACTUAL USERNAME AND PASSWORD
       setMessage("Login successful!");
-      window.location.href = '/admin-home'
+      localStorage.setItem("admin_login","true")
+      window.location.href = '/admin'
     } else {
       setMessage("Invalid username or password.");
     }
