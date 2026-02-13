@@ -7,7 +7,7 @@ import ProtectedRoute from './pages/ProtectedRoute';
 function App() {
   const admin_login = localStorage.getItem("admin_login")
   return (
-    <Router basename={import.meta.emv.BASE_URL}>
+    <Router basename={import.meta.env.BASE_URL}>
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/admin-login' element={<AdminLogin />} />
