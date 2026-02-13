@@ -11,14 +11,15 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/admin-login" element={<AdminLogin />} />
-        <Route
+        {/* <Route
           path="/admin"
           element={
             <ProtectedRoute isallowed={admin_login} redirectPath="/admin-login">
               <AdminHome />
             </ProtectedRoute>
           }
-        />
+        {/* /> */}
+        <Route path="/admin" element={<AdminHome />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </Router>
