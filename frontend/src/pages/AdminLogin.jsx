@@ -1,9 +1,11 @@
 import { useState } from "react";
+import { Navigate, useNavigate } from "react-router-dom";
 
 export default function AdminLogin() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
+  const navigate = useNavigate()
 
   const handleLogin = (e) => {
     e.preventDefault();
@@ -11,7 +13,7 @@ export default function AdminLogin() {
     if (username === "admin" && password === "GamE.PromoteR.JsX") { // CHANGE TO ACTUAL USERNAME AND PASSWORD
       setMessage("Login successful!");
       localStorage.setItem("admin_login","true")
-      window.location.href = '/admin'
+      navigate("/admin")
     } else {
       setMessage("Invalid username or password.");
     }
