@@ -1,24 +1,24 @@
+import { signInWithEmailAndPassword } from "firebase/auth";
 import { useState } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
+import { auth } from "../firebase";
 
 export default function AdminLogin() {
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
   const navigate = useNavigate()
 
-  const handleLogin = (e) => {
+  const handleLogin = async(e) => {
     e.preventDefault();
 
-    if (username === "admin" && password === "GamE.PromoteR.JsX") { // CHANGE TO ACTUAL USERNAME AND PASSWORD
-      setMessage("Login successful!");
-      localStorage.setItem("admin_login","true")
+    try {
+      await signInWithEmailAndPassword(auth,email,password)
+      setMessage("your login has been approved by the higher ups")
       navigate("/admin")
-    } else {
-      setMessage("Invalid username or password.");
-    }
+    } catch(error){setmessage("why you wrong")}
   };
-
+  
   return (
     <div className="flex items-center justify-center h-screen bg-gray-100">
       <form
@@ -28,11 +28,11 @@ export default function AdminLogin() {
         <h2 className="text-2xl font-bold mb-6 text-center">Admin Login</h2>
 
         <input
-          type="text"
-          placeholder="Username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          className="w-full p-2 mb-4 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+          type="email"
+          placeholder="Admin Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          className="w-full p-2 mb-4 border border-gray-300 rounded"
         />
 
         <input
@@ -40,18 +40,18 @@ export default function AdminLogin() {
           placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          className="w-full p-2 mb-6 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+          className="w-full p-2 mb-6 border border-gray-300 rounded"
         />
 
         <button
           type="submit"
-          className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600 transition-colors"
+          className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600"
         >
           Login
         </button>
 
         {message && (
-          <p className="text-center mt-4 text-sm font-medium text-gray-700">
+          <p className="text-center mt-4 text-sm">
             {message}
           </p>
         )}

@@ -5,21 +5,16 @@ import AdminHome from "./pages/AdminHome";
 import ProtectedRoute from "./pages/ProtectedRoute"
 
 function App() {
-  const admin_login = localStorage.getItem("admin_login") === "true";
   return (
     <Router>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/admin-login" element={<AdminLogin />} />
-        {/* <Route
-          path="/admin"
-          element={
-            <ProtectedRoute isallowed={admin_login} redirectPath="/admin-login">
-              <AdminHome />
-            </ProtectedRoute>
-          }
-        {/* /> */}
-        <Route path="/admin" element={<AdminHome />} />
+        <Route path="/admin" element={
+          <ProtectedRoute>
+            <AdminHome />
+          </ProtectedRoute>
+        } />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </Router>
